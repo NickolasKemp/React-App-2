@@ -14,7 +14,6 @@ export function useBoardDebounce({watch, boardId}: IUseBoardDebounce) {
   const { updateBoard } = useUpdateBoard()
 
 
-
   const debouncedUpdateBoard = useCallback(
     debounce((formData: TypeBoardFormState) => {
       updateBoard({ id: boardId, data: formData })
@@ -24,7 +23,8 @@ export function useBoardDebounce({watch, boardId}: IUseBoardDebounce) {
 
   useEffect(() => {
     const { unsubscribe } = watch(formData => {
-      if(boardId) {
+      if(boardId !== '') {
+        console.log('debounced with boardId', boardId)
         //@ts-ignore
         debouncedUpdateBoard( {...formData})
       }

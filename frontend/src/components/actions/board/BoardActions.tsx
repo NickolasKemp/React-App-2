@@ -26,7 +26,7 @@ function BoardActions( { boardId, className }: BoardActionsProps) {
       <EllipsisBtn onClick={handleToggle} />
       <div ref={ref} className={`options-modal`}>
         <div className={`options-modal__options-list ${isShow ? 'active' : ''}`}>
-          <Button onClick={() => handleDelete()} btnType='delete'>Delete</Button>
+          <Button onClick={handleDelete} btnType='delete'>Delete</Button>
         </div>
       </div>
     </div>

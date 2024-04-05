@@ -1,15 +1,12 @@
 import React from 'react';
 import TaskModal from './TaskModal';
-import ListActions from './ui/ListActions';
 import DropDownList from './ui/DropDownList';
-import { useDeleteTask } from '../hooks/task/useDeleteTask';
 import { useOutside } from '../hooks/useOutside';
 import { useUpdateTask } from '../hooks/task/useUpdateTask';
 import { useCreateHistoryMessage } from '../hooks/useCreateHistoryMessage';
 import { IListResponse } from '../types/list.types';
-import { useLists } from '../hooks/list/useLists';
 import { ITaskResponse } from '../types/task.types';
-import Button from './ui/buttons/Button';
+import TaskActions from './ui/TaskActions';
 
 interface TaskProps {
   task: ITaskResponse
@@ -19,18 +16,9 @@ interface TaskProps {
 
 const Task = ({task, list, lists}: TaskProps) => {
   const { createHistoryMessage } = useCreateHistoryMessage()
-  const {deleteTask, isDeletePending} = useDeleteTask()
   const { ref, isShow, setIsShow } = useOutside(false)
   const { updateTask} = useUpdateTask()
 
-  function editTask() {
-    setIsShow(true)
-  }
-
-  function removeTask() {
-    deleteTask(task.id)
-    createHistoryMessage(`You deleted task <span>${task.name}</span> from "${list.label}"`, task.id)
-  }
 
   function changeList(newListLabel: IListResponse['label'], newListId: IListResponse['id']) {
     if (task.listId !== newListId) {
@@ -57,10 +45,7 @@ const Task = ({task, list, lists}: TaskProps) => {
       { isShow && <TaskModal list={list} item={task} taskModalRef={ref} setIsShow={setIsShow} />}
       <div className="task__name-container">
         <h4 className="task__name">{task.name}</h4>
-        <ListActions>
-          <Button btnType='edit' id={task.id} onClick={editTask}>Edit</Button>
-          <Button btnType='delete' id={task.id} onClick={removeTask}>Delete</Button>
-        </ListActions>
+        <TaskActions task={task} list={list} setIsShowActions={setIsShow} />
       </div>
       <p className='task__description'>
         {task.description}
@@ -77,7 +62,7 @@ const Task = ({task, list, lists}: TaskProps) => {
         <div className="task__priority">{task.priority ? task.priority : 'not defined'}</div>
       </div>
       <DropDownList>
-        {lists?.map((list: IListResponse) => <button id={task.id} key={list.id} onClick={() => changeList(list.label, list.id)}>{list.label}</button>)}
+        {lists?.map((list: IListResponse) => <button id={task.id} key={list.id} onClick={() => changeList(list?.label, list.id)}>{list.label}</button>)}
       </DropDownList>
     </div>
   )

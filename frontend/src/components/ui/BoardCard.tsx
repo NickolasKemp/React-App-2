@@ -1,6 +1,6 @@
 import React from 'react';
 import { IBoardResponse } from 'src/types/board.types';
-import { Link } from "react-router-dom"
+import { Link, redirect } from "react-router-dom"
 import BoardActions from '../actions/board/BoardActions';
 
 

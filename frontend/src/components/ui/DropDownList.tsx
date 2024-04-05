@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../../UIComponentsStyle.css'
 import { useOutside } from '../../hooks/useOutside';
 

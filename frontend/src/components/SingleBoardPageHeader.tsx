@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import NewListModal from './ui/NewListModal';
 import HistoryModal from './HistoryModal';
 import { useParams } from 'react-router-dom';
@@ -10,11 +10,15 @@ import { useBoardDebounce } from '../hooks/board/useBoardDebounce';
 const SingleBoardPageHeader = () => {
 const params = useParams() || {}
 const {board} = useBoard(params?.id || '')
-  const { register, watch } = useForm<TypeBoardFormState>({
+  const { register, watch, setValue } = useForm<TypeBoardFormState>({
     defaultValues: {
       title: board?.title
     }
   })
+
+  useEffect(() => {
+    setValue('title', board?.title || '');
+  }, [board?.title, setValue]);
 
   useBoardDebounce({ watch, boardId: board?.id || '' })
 

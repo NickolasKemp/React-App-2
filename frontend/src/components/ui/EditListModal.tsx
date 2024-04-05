@@ -12,6 +12,7 @@ interface MyForm {
   label: string
 }
 
+
 function EditListModal({children, id, currentListTasks}: any) {
   const { lists } = useLists()
   const {createList} = useCreateList()
@@ -31,13 +32,11 @@ function EditListModal({children, id, currentListTasks}: any) {
         updateTask({id: task.id, data: { createdAt: task.createdAt, name: task.name,
             description: task.description, priority: task.priority || undefined, dueDate: task.dueDate,
             status: data.label } })
-        console.log('label', data.label)
-        console.log("task updated", task )
+
       }
       setIsShow(false);
     }
 
-    console.log('list updated')
 
   }
 
