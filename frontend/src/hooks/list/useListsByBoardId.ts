@@ -5,7 +5,6 @@ import { IListResponse } from '../../types/list.types';
 
 
 export function useListsByBoardId(boardId: string) {
-
   const {data} =  useQuery(
     {
       queryKey: ['lists', boardId],
@@ -13,13 +12,13 @@ export function useListsByBoardId(boardId: string) {
       enabled: !!boardId
   })
 
-  const [lists, setLists] = useState<IListResponse[] | undefined>(data?.data)
+  const [lists, setLists] =
+    useState<IListResponse[] | undefined>(data?.data)
 
 
   useEffect(() => {
     setLists(data?.data)
   }, [data?.data]);
-
 
   return {lists, setLists}
 }

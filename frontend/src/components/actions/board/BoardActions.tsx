@@ -1,7 +1,7 @@
 import React from 'react';
 import { useOutside } from 'src/hooks/useOutside';
 import EllipsisBtn from '../../ui/buttons/EllipsisBtn';
-import Button from '../../ui/buttons/Button';
+import ActionsBtn from '../../ui/buttons/ActionsBtn';
 import { useDeleteBoard } from '../../../hooks/board/useDeleteBoard';
 
 interface BoardActionsProps {
@@ -12,9 +12,9 @@ interface BoardActionsProps {
 function BoardActions( { boardId, className }: BoardActionsProps) {
   const {ref, isShow, setIsShow} = useOutside(false)
   const {deleteBoard} = useDeleteBoard()
-  function handleDelete() {
+  const handleDelete =() => {
     deleteBoard(boardId)
-    setIsShow(false)
+    window.location.reload()
   }
 
   function handleToggle() {
@@ -23,10 +23,10 @@ function BoardActions( { boardId, className }: BoardActionsProps) {
 
   return (
     <div className={className} >
-      <EllipsisBtn onClick={handleToggle} />
+      <EllipsisBtn color='black' onClick={handleToggle} />
       <div ref={ref} className={`options-modal`}>
         <div className={`options-modal__options-list ${isShow ? 'active' : ''}`}>
-          <Button onClick={handleDelete} btnType='delete'>Delete</Button>
+          <ActionsBtn onClick={handleDelete} btnType='delete'>Delete</ActionsBtn>
         </div>
       </div>
     </div>

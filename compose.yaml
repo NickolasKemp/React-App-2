@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   frontend:
+    container_name: 'frontend'
     image: frontend
     build:
       context: ./frontend
@@ -10,32 +11,16 @@ services:
       - 3000:3000
     restart: always
     environment:
-      - SERVER_URL=http://localhost:5000/api
+      - SERVER_URL=http://localhost:5001/api
     depends_on:
       - backend
   backend:
+    container_name: 'backend'
     image: backend
-    depends_on:
-      - db
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - 5000:5000
-    environment:
-      - DATABASE_URL=postgresql://postgres:new_password@db:5434/react-app?schema=public
-
-  db:
-    image: postgres:latest
-    restart: always
-    ports:
-      - "5434:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
+      - 5001:5000
 volumes:
   pgdata:

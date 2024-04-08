@@ -1,24 +1,20 @@
 import React from 'react';
 import '../../UIComponentsStyle.css'
 import { useOutside } from '../../hooks/useOutside';
+import ArrowUp from './icons/ArrowUp';
+import ArrowDown from './icons/ArrowDown';
 
 function DropDownList({ children}:any) {
   const {ref, isShow, setIsShow} = useOutside(false)
 
   const toggleButtonOff = <div className='icon'>
     <span>move to</span>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-         stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-    </svg>
+    <ArrowUp/>
   </div>
 
   const toggleButtonOn = <div className="icon">
     <span>move to</span>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
-         className="w-6 h-6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
-    </svg>
+    <ArrowDown/>
   </div>
   return (
     <div className="options-container"

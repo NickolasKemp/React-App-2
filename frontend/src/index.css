@@ -27,6 +27,7 @@ code {
 button {
   background: none;
   border: none;
+  appearance: none;
 }
 
 button:hover {
@@ -36,4 +37,8 @@ button:hover {
 .icon svg{
  width: 20px;
   height: 20px;
+}
+
+body.locked {
+  overflow: hidden;
 }

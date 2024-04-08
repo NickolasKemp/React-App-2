@@ -10,6 +10,8 @@ COPY prisma ./prisma
 
 RUN npx prisma generate
 
+RUN npx prisma db push
+
 COPY . .
 
 EXPOSE 5000

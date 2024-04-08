@@ -11,7 +11,6 @@ export function useLists() {
       queryFn: () => listService.getLists()
     }
   )
-
   const [lists, setLists] = useState<IListResponse[] | undefined>(data?.data)
 
 

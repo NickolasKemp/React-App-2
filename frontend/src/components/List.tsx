@@ -1,54 +1,78 @@
-import React from 'react';
-import ListActions from './ui/ListActions';
+import React, { useEffect, useRef } from 'react';
+import ListActions from './actions/list/ListActions';
 import 'react-day-picker/dist/style.css';
 import Tasks from './Tasks';
-import EditListModal from './ui/EditListModal';
 import { useCreateTask } from '../hooks/task/useCreateTask';
-import { useCreateHistoryMessage } from '../hooks/useCreateHistoryMessage';
-import { useDeleteList } from '../hooks/list/useDeleteList';
-import { IListResponse } from 'src/types/list.types';
+import { useCreateHistoryMessage } from '../hooks/message/useCreateHistoryMessage';
+import { IListResponse, TypeListFormState } from 'src/types/list.types';
 import { useCurrentListTasks } from '../hooks/task/useCurrentListTasks';
 import { defaultTask } from '../types/task.types';
-import { useParams } from 'react-router-dom';
-import Button from './ui/buttons/Button';
+import { IBoardResponse } from '../types/board.types';
+import { useForm } from 'react-hook-form';
+import { useListDebounce } from 'src/hooks/list/useListDebounce';
+import { TransparentField } from './ui/fields/TransparentField';
+import Plus from './ui/icons/Plus';
 interface ListProps {
   list: IListResponse
   lists: IListResponse[]
+  board: IBoardResponse
 }
 
-const List  = ({list, lists}: ListProps) => {
+const List  = ({list, lists, board}: ListProps) => {
   const { currentListTasks } = useCurrentListTasks(list.id)
   const {createTask} = useCreateTask()
   const { createHistoryMessage } = useCreateHistoryMessage()
   function handleCreatingTask() {
     createTask({...defaultTask, status: list.label, listId: list.id})
       .then((data: any) => {
-        createHistoryMessage(`You added a new task to "${list.label}"`, data.data.id);
+        createHistoryMessage({
+          message: `You added a new task to "${list.label}"`,
+          taskId: data.data.id,
+          boardId: board.id
+      });
       })
       .catch((error) => {
         console.error("Error creating task:", error);
       })
   }
 
+  const { register, watch, setValue } = useForm<TypeListFormState>({
+    defaultValues: {
+      label: list.label
+    }})
+  useListDebounce({ watch, listId: list.id })
+
+  useEffect(() => {
+    setValue('label', list.label)
+  }, [list.label]);
+
+  const inputParentRef = useRef(null);
+
   return (
-      <div className="list">
-        <div className="list__title title-list">
-          <h3>{list.label}</h3>
-          <div className="title-list__actions">
-            <span>{currentListTasks?.length}</span>
-            <ListActions list={list} currentListTasks={currentListTasks} />
-          </div>
+<>
+  {
+    list &&
+    <div className="list">
+      <div className="list__title title-list">
+        <h3 ref={inputParentRef}>
+          <TransparentField className="text-base font-medium" placeholder="Untitled"
+                            {...register('label')}  />
+        </h3>
+        <div className="title-list__actions">
+          <span>{currentListTasks?.length}</span>
+          <ListActions inputParentRef={inputParentRef} boardId={board.id} list={list}
+                       currentListTasks={currentListTasks} />
         </div>
-        <button onClick={handleCreatingTask} className="list__button">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-               stroke="currentColor" className="w-3 h-3">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
-          Add new task
-        </button>
-        <Tasks list={list} lists={lists} items={currentListTasks} />
       </div>
-  );
+      <button onClick={handleCreatingTask} className="list__button">
+        <Plus/>
+        Add new task
+      </button>
+      <Tasks board={board} list={list} lists={lists} items={currentListTasks} />
+    </div>
+  }
+</>
+)
 };
 
 export default List;

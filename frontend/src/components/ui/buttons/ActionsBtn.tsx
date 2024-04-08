@@ -1,15 +1,15 @@
 import React from 'react';
 
 interface ButtonProps {
-  btnType: string
-  children: any
-  onClick?: any
+  btnType: 'edit' | 'delete' | "create"
+  children?: any
+  onClick?: () => void
   id?: string
 }
 
-const Button = ({btnType, children, onClick, id}: ButtonProps) => {
+const ActionsBtn = ({btnType, children, onClick, id}: ButtonProps) => {
   return (
-    <button id={id} onClick={onClick} className='icon size-full flex items-center gap-1 justify-stretch px-4 py-2 cursor-pointer hover:bg-gray-300 '>
+    <button id={id} onClick={onClick} className='icon size-full flex items-center gap-1 justify-stretch px-4 py-2 cursor-pointer hover:bg-[#f5f1f1] max-w-40'>
       {
         btnType === 'edit' ? <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                                stroke="currentColor" className="w-6 h-6">
@@ -34,4 +34,4 @@ const Button = ({btnType, children, onClick, id}: ButtonProps) => {
   );
 };
 
-export default Button;
+export default ActionsBtn;

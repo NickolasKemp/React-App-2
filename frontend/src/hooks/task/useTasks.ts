@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { ITaskResponse } from '../../types/task.types';
 
-
 export function useTasks() {
   const {data} =  useQuery(
     {
@@ -17,8 +16,6 @@ export function useTasks() {
   useEffect(() => {
     setItems(data?.data)
   }, [data?.data]);
-
-
 
   return {items, setItems}
 }

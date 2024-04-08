@@ -3,14 +3,15 @@ import { ITaskResponse } from '../types/task.types';
 import {IListResponse } from '../types/list.types';
 import Task from './Task';
 import { useSortTasks } from '../hooks/task/useSortTasks';
+import { IBoardResponse } from '../types/board.types';
 
 interface TasksProps {
   list : IListResponse
   lists: IListResponse[]
   items: ITaskResponse[] | undefined
+  board: IBoardResponse
 }
-
-const Tasks = ({list, lists, items}: TasksProps) => {
+const Tasks = ({list, lists, items, board}: TasksProps) => {
 
   const { sortedTasks } = useSortTasks(items || [])
 
@@ -19,7 +20,7 @@ const Tasks = ({list, lists, items}: TasksProps) => {
       {
         items &&
         sortedTasks.map((task: ITaskResponse) =>
-          <Task key={task.id} task={task} list={list} lists={lists} />
+          <Task board={board} key={task.id} task={task} list={list} lists={lists} />
         )
       }
     </div>

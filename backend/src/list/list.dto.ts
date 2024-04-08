@@ -6,7 +6,7 @@ import { TaskDto } from '../task/task.dto';
 export class ListDto {
   @IsString()
   @IsOptional()
-  label?: string;
+  label: string;
 
   @IsString()
   @IsOptional()

@@ -17,5 +17,5 @@ export function useUpdateBoard(key?: string) {
     }
   })
 
-  return {updateBoard}
+  return { updateBoard }
 }

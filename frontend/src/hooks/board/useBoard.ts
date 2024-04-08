@@ -12,7 +12,8 @@ export function useBoard(id: string) {
     }
   )
 
-  const [board, setBoard] = useState<IBoardResponse | undefined>(data?.data)
+  const [board, setBoard] =
+    useState<IBoardResponse | undefined>(data?.data)
 
   useEffect(() => {
     setBoard(data?.data)
